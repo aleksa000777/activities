@@ -59,8 +59,10 @@ $scope.getLocation = function(){
 function showPosition(position){
   $scope.currlat=position.coords.latitude;
   $scope.currlon=position.coords.longitude;
-  x.innerHTML = "Latitude: " + position.coords.latitude +
-   "<br>Longitude: " + position.coords.longitude;
+  $http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").then(function(data){
+    $scope.current_location = angular.fromJson(data);
+    $scope.current_place = $scope.current_location.data.results[2].formatted_address;
+  })
    myMap.init();
 
 }

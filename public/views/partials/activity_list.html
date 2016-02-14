@@ -6,7 +6,7 @@
     <a ng-click="getInputTerm(input.term)" role="button">Search</a>
     <button type="button" name="button" ng-click="getLocation()">get current location</button>
   </div>
-  <div id="x">you current location</div>
+  <p>{{current_place}}</p>
 </div>
 <div class="row">
   <div class="four columns">
@@ -24,7 +24,6 @@
 
   </div>
   <div class="row">
-    <p>look one click{{ activityone}}</p>
     <div id="map"></div>
     <img ng-src="{{img}}" alt="">
     <p>{{ activity }}</p>
