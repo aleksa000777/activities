@@ -39,11 +39,11 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
      myMap.init();
   }
 
-
-$http.get('/search',{params:{"term": "so happy to get term", "location": "ohh location"}}).then(function(data){
-  $scope.activities = data.data.businesses;
-})
-
+function show_list(lll){
+  $http.get('/search',{params:{"term": "so happy to get term", "location": "ohh location","cll":lll}}).then(function(data){
+    $scope.activities = data.data.businesses;
+  })
+}
 
 
 $scope.currlat='';
@@ -63,6 +63,8 @@ function showPosition(position){
     $scope.current_location = angular.fromJson(data);
     $scope.current_place = $scope.current_location.data.results[2].formatted_address;
   })
+  lll=$scope.currlat+","+$scope.currlon
+  show_list(lll)
    myMap.init();
 
 }
@@ -80,7 +82,7 @@ $scope.getInputTerm = function(text){
     this.zoom;
     this.mapEl;
 
-    this.zoom = 6;
+    this.zoom = 13;
     this.mapEl = document.querySelector('#map');
 
     this.currentLatLng = new google.maps.LatLng( $scope.currlat||40.6974881, $scope.currlon||-73.979681 );

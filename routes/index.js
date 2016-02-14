@@ -21,8 +21,9 @@ var yelp = new Yelp({
 
 
 router.get('/search', function(req,res){
-  console.log(req.query,'this is request');
-  yelp.search({ term:'', location: 'Montreal' ,category_filter: 'active'})
+  console.log(req.query.cll,'this is request');
+
+  yelp.search({ term:'',category_filter: 'active', ll: req.query.cll})
   .then(function(data){
     res.json(data)
   })
