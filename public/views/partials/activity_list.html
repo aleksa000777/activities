@@ -1,0 +1,40 @@
+<div class="row">
+  <div id="search">
+    <form>
+      <input type="text" ng-model=input.term value="" placeholder="what to search">
+    </form>
+    <a ng-click="getInputTerm(input.term)" role="button">Search</a>
+    <button type="button" name="button" ng-click="getLocation()">get current location</button>
+  </div>
+  <div id="x">you current location</div>
+</div>
+<div class="row">
+  <div class="four columns">
+
+    <ul id="list_activities">
+      <h1>list</h1>
+      <li ng-repeat="activity in activities" >
+
+      <p><h5 ng-click="pickActivity(currlat,currlon);activity_details(activity)">{{ activity.name }}</h5></p>
+      </li>
+    </ul>
+  </div>
+  <div class="eight columns">
+  <div class="row">
+
+  </div>
+  <div class="row">
+    <p>look one click{{ activityone}}</p>
+    <div id="map"></div>
+    <img ng-src="{{img}}" alt="">
+    <p>{{ activity }}</p>
+    <p>type:  {{type}}</p>
+    {{currlat}}
+    {{currlon}}
+    <p>URL</p><a ng-href="{{ url }}" target="_blank">click</a>
+  <p>web-site: <a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
+    <p>{{ snippet_text }}</p>
+
+  </div>
+  </div>
+</div>

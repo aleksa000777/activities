@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app=activitiesApp>
+  <head>
+    <meta charset="utf-8">
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTvHqW2RAF4awSfxoqaCtPpgl4Zx4qKt0" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.min.js" charset="utf-8"></script>
+    <script src="/js/app.js" charset="utf-8"></script>
+    <title>google maps</title>
+
+  </head>
+  <body>
+    <a href="#/activities"><h1>Activities</h1></a>
+    <div class="content">
+      <div id="activities" >
+        <div class="activities-container" ng-view>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
