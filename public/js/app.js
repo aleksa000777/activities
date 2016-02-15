@@ -37,12 +37,27 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
 
     console.log($scope.country_one);
      myMap.init();
+     myMap.reCenterMap();
   }
-
 function show_list(lll){
   $http.get('/search',{params:{"term": "so happy to get term", "location": "ohh location","cll":lll}}).then(function(data){
     $scope.activities = data.data.businesses;
-  })
+    console.log($scope.activities, 'to show all activities');
+    for(var i =0;i<$scope.activities.length;i++){
+      var location = $scope.activities[i].location.coordinate
+
+      //aleksa
+      // console.log($scope.activities[i].name);
+          myMap.markereach = new google.maps.Marker({
+            position: new google.maps.LatLng(location.latitude, location.longitude),
+            map: myMap.map,
+            title: $scope.activities[i].name,
+            animation: google.maps.Animation.DROP
+          });
+          console.log('here');
+      //aleksa
+}
+})
 }
 
 
@@ -96,8 +111,9 @@ $scope.getInputTerm = function(text){
     this.marker = new google.maps.Marker({
       position: this.currentLatLng,
       map: this.map,
-      title: 'mew',
-      animation: google.maps.Animation.DROP
+      title: 'YOU ARE HERE',
+      animation: google.maps.Animation.DROP,
+      icon: "https://mt.google.com/vt/icon?psize=20&font=fonts/Roboto-Regular.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-a.png&ax=44&ay=48&scale=1&text=%E2%80%A2"
     });
   }
 
