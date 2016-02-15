@@ -35,16 +35,15 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
       $scope.web = data.data;
     })
 
-    console.log($scope.country_one);
      myMap.init();
      myMap.reCenterMap();
   }
-function show_list(lll){
-  $http.get('/search',{params:{"term": "so happy to get term", "location": "ohh location","cll":lll}}).then(function(data){
+function show_list(latlongi,location){
+  $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
     $scope.activities = data.data.businesses;
     console.log($scope.activities, 'to show all activities');
     for(var i =0;i<$scope.activities.length;i++){
-      var location = $scope.activities[i].location.coordinate
+      var location = $scope.activities[i].location.coordinate;
 
       //aleksa
       // console.log($scope.activities[i].name);
@@ -78,14 +77,29 @@ function showPosition(position){
     $scope.current_location = angular.fromJson(data);
     $scope.current_place = $scope.current_location.data.results[2].formatted_address;
   })
-  lll=$scope.currlat+","+$scope.currlon
-  show_list(lll)
+  currlocation=$scope.currlat+","+$scope.currlon
+  show_list(currlocation)
    myMap.init();
 
 }
 
 $scope.getInputTerm = function(text){
   console.log(text, "search text");
+  show_list("",text);
+  var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': text+", us"}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            console.log("location search: " + results[0].geometry.location.lat() + " " +results[0].geometry.location.lng());
+            $scope.currlat = results[0].geometry.location.lat();
+            $scope.currlon = results[0].geometry.location.lng();
+            myMap.init();
+            myMap.updateMarker();
+          myMap.reCenterMap();
+          } else {
+            alert("Something got wrong " + status);
+          }
+        });
+
 }
 
 

@@ -21,8 +21,17 @@ var yelp = new Yelp({
 
 
 router.get('/search', function(req,res){
-  console.log(req.query.cll,'this is request');
-
+  console.log(req.query,'this is request');
+  if(req.query.location){
+    yelp.search({ term:'',category_filter: 'active', location: req.query.location})
+    .then(function(data){
+      res.json(data)
+    })
+    .catch(function(err){
+      console.log(err);
+    })
+  }
+else{
   yelp.search({ term:'',category_filter: 'active', ll: req.query.cll})
   .then(function(data){
     res.json(data)
@@ -30,6 +39,7 @@ router.get('/search', function(req,res){
   .catch(function(err){
     console.log(err);
   })
+}
 })
 
 //go to yelp web site and grab web site company ;)
