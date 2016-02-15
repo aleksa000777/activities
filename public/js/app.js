@@ -35,8 +35,11 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
       $scope.web = data.data;
     })
 
-     myMap.init();
-     myMap.reCenterMap();
+    //  myMap.init();
+    $scope.pickActivity($scope.currlat,$scope.currlon);
+    myMap.marker.icon = "https://mt.google.com/vt/icon?psize=20&font=fonts/Roboto-Regular.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-a.png&ax=44&ay=48&scale=1&text=%E2%80%A2";
+    //  myMap.updateMarker();
+    //  myMap.reCenterMap();
   }
 function show_list(latlongi,location){
   $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
