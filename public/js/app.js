@@ -58,6 +58,18 @@ function show_list(latlongi,location){
             animation: google.maps.Animation.DROP,
             icon: "http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png"
           });
+
+          var infowindow = new google.maps.InfoWindow({
+          content:$scope.activities[i].name
+          });
+
+          var allmarkers = $scope.activities[i].marker;
+          console.log(allmarkers, i,$scope.activities[i].name);
+          google.maps.event.addListener(allmarkers, 'click', function() {
+          infowindow.setContent(this.title);
+          infowindow.open(myMap.map,this);
+          });
+
 }
 })
 }
