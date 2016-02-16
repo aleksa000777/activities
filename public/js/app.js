@@ -16,6 +16,9 @@ app.config(['$routeProvider', function( $routeProvider ){
 }])
 
 app.controller('activitiesController', ['$scope','$http', function($scope,$http){
+
+  // $scope.myLocationMarker = null;
+
   $scope.activity_details = function(index){
     $scope.one_activity = angular.fromJson(index);
     $scope.activity = $scope.one_activity.name;
@@ -32,42 +35,30 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     $http.get('/getweb',{params:{"url":$scope.url}}).then(function(data){
       $scope.web = data.data;
     })
+    for(var i =0;i<$scope.activities.length;i++){
+      $scope.activities[i].marker.setIcon("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png");
+      $scope.activities[i].marker.setAnimation(null);
 
-    $scope.pickActivity($scope.currlat,$scope.currlon);
-    myMap.marker.setIcon("https://mt.google.com/vt/icon?psize=20&font=fonts/Roboto-Regular.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-a.png&ax=44&ay=48&scale=1&text=%E2%80%A2");
-    myMap.marker.title = $scope.activity;
-    // myMap.marker.icon = "https://mt.google.com/vt/icon?psize=20&font=fonts/Roboto-Regular.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-a.png&ax=44&ay=48&scale=1&text=%E2%80%A2";
+          }
+    $scope.pickActivity($scope.one_activity.marker);
+
+
+
   }
 function show_list(latlongi,location){
   $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
     $scope.activities = data.data.businesses;
-    if($scope.current_location){
-      console.log('i have current location',$scope.current_location.data);
-      $scope.activities.push($scope.current_location.data)
-    }
     console.log($scope.activities, 'to show all activities');
     for(var i =0;i<$scope.activities.length;i++){
-      if(i===$scope.activities.length-1){
-        console.log($scope.activities[i].results[3].geometry.location,'last');
-        var location = $scope.activities[i].results[3].geometry.location;
-      }
-      else{
       var location = $scope.activities[i].location.coordinate;
-}
-      //aleksa
-      console.log(location);
-          myMap.markereach = new google.maps.Marker({
+      $scope.activities[i].marker = new google.maps.Marker({
             position: new google.maps.LatLng(location.latitude||location.lat, location.longitude||location.lng),
             map: myMap.map,
             title: $scope.activities[i].name,
             animation: google.maps.Animation.DROP,
+            icon: "http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png"
           });
-
-          console.log('here');
-
-      //aleksa
 }
-$scope.activities.splice(-1);
 })
 }
 
@@ -91,9 +82,13 @@ function showPosition(position){
   })
   currlocation=$scope.currlat+","+$scope.currlon
   show_list(currlocation)
-   myMap.init();
-   myMap.marker.title = "YOU ARE HERE"
+  //  myMap.init();
+  //  myMap.marker.title = "YOU ARE HERE"
 
+  var currentLatLng = new google.maps.LatLng( $scope.currlat||40.6974881, $scope.currlon||-73.979681 );
+  var myLocationMarker = myMap.getMarker();
+  myLocationMarker.setPosition(currentLatLng);
+  // myLocationMarker.set('zIndex', '999');
 }
 
 $scope.getInputTerm = function(text){
@@ -145,9 +140,16 @@ $scope.getInputTerm = function(text){
     });
   }
 
-  myMap.reCenterMap = function(){
+  myMap.getMarker = function() {
+    return this.marker;
+  }
+  myMap.getMap = function() {
+    return this.map;
+  }
+
+  myMap.reCenterMap = function(latLng){
     myMap.map.setZoom(myMap.zoom);
-    myMap.map.setCenter(myMap.currentLatLng);
+    myMap.map.setCenter(latLng || myMap.currentLatLng);
   }
 
   myMap.updateMarker = function(){
@@ -155,16 +157,17 @@ $scope.getInputTerm = function(text){
     myMap.marker.setAnimation(google.maps.Animation.DROP)
   }
 
-  $scope.pickActivity = function(lat,lon){
-    myMap.currentLatLng = new google.maps.LatLng(lat,lon);
+$scope.pickActivity = function(marker){
+    marker.setIcon('http://www.tmconsulting.co.rs/uploads/marker.png');
+    myMap.reCenterMap( marker.position );
+    marker.setAnimation(google.maps.Animation.BOUNCE);
 
-
-      myMap.updateMarker();
-    myMap.reCenterMap();
+    // looking for the marker that belongs to this activity
   }
 
 
 
+// google.maps.event.addListener(myMap.marker, 'click', function() {this.marker.title = "weeee";});
 
 myMap.init();
 // ========google map ends========
@@ -177,5 +180,6 @@ app.controller('activityDetailController', ['$scope', '$routeParams', function($
   function isACountry(country){
     return country.capitalCity;
   }
+
 
 }])
