@@ -81,14 +81,12 @@ function showPosition(position){
     $scope.current_place = $scope.current_location.data.results[2].formatted_address;
   })
   currlocation=$scope.currlat+","+$scope.currlon
-  show_list(currlocation)
-  //  myMap.init();
-  //  myMap.marker.title = "YOU ARE HERE"
-
+  show_list(currlocation);
   var currentLatLng = new google.maps.LatLng( $scope.currlat||40.6974881, $scope.currlon||-73.979681 );
+  myMap.reCenterMap(currentLatLng)
+
   var myLocationMarker = myMap.getMarker();
   myLocationMarker.setPosition(currentLatLng);
-  // myLocationMarker.set('zIndex', '999');
 }
 
 $scope.getInputTerm = function(text){
