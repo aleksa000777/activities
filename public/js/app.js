@@ -19,6 +19,8 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
 
   // $scope.myLocationMarker = null;
 
+//======render detail of activity on click========
+
   $scope.activity_details = function(index){
     $scope.one_activity = angular.fromJson(index);
     $scope.activity = $scope.one_activity.name;
@@ -31,24 +33,26 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     $scope.currlat = $scope.one_activity.location.coordinate.latitude;
     $scope.currlon = $scope.one_activity.location.coordinate.longitude;
     $scope.url = $scope.one_activity.mobile_url;
-
+//======get web site from yelp=========
     $http.get('/getweb',{params:{"url":$scope.url}}).then(function(data){
       $scope.web = data.data;
     })
+    //=========set all markers to default==========
     for(var i =0;i<$scope.activities.length;i++){
       $scope.activities[i].marker.setIcon("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png");
       $scope.activities[i].marker.setAnimation(null);
 
           }
+    //===========set this marker to active==========
     $scope.pickActivity($scope.one_activity.marker);
-
-
-
   }
+
+  //=========render list of activity depends on current location or search input==========
 function show_list(latlongi,location){
   $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
     $scope.activities = data.data.businesses;
     console.log($scope.activities, 'to show all activities');
+    //======go throw each activity and set marker on map======
     for(var i =0;i<$scope.activities.length;i++){
       var location = $scope.activities[i].location.coordinate;
       $scope.activities[i].marker = new google.maps.Marker({
@@ -58,25 +62,24 @@ function show_list(latlongi,location){
             animation: google.maps.Animation.DROP,
             icon: "http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png"
           });
-
+          // =====set on click on marker show content====
           var infowindow = new google.maps.InfoWindow({
           content:$scope.activities[i].name
           });
 
           var allmarkers = $scope.activities[i].marker;
-          console.log(allmarkers, i,$scope.activities[i].name);
           google.maps.event.addListener(allmarkers, 'click', function() {
           infowindow.setContent(this.title);
           infowindow.open(myMap.map,this);
           });
-
-}
-})
+    }
+  })
 }
 
 
 $scope.currlat='';
 $scope.currlon='';
+//====show your current location on page====
 x = document.querySelector('#x');
 $scope.getLocation = function(){
   if (navigator.geolocation) {
@@ -101,6 +104,7 @@ function showPosition(position){
   myLocationMarker.setPosition(currentLatLng);
 }
 
+//=====get the input and render list of activities====
 $scope.getInputTerm = function(text){
   console.log(text, "search text");
   show_list("",text);
@@ -117,7 +121,6 @@ $scope.getInputTerm = function(text){
             alert("Something got wrong " + status);
           }
         });
-
 }
 
 
@@ -167,6 +170,7 @@ $scope.getInputTerm = function(text){
     myMap.marker.setAnimation(google.maps.Animation.DROP)
   }
 
+//===set active marker when click====
 $scope.pickActivity = function(marker){
     marker.setIcon('http://www.tmconsulting.co.rs/uploads/marker.png');
     myMap.reCenterMap( marker.position );
@@ -175,10 +179,6 @@ $scope.pickActivity = function(marker){
     // looking for the marker that belongs to this activity
   }
 
-
-
-// google.maps.event.addListener(myMap.marker, 'click', function() {this.marker.title = "weeee";});
-
 myMap.init();
 // ========google map ends========
 
@@ -186,6 +186,10 @@ myMap.init();
 
 
 
+
+
+
+//==I don't use it yet
 app.controller('activityDetailController', ['$scope', '$routeParams', function($scope, $routeParams){
   function isACountry(country){
     return country.capitalCity;
