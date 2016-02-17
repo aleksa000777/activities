@@ -1,7 +1,7 @@
 <div class="row">
   <div id="search">
     <form ng-submit="getInputTerm(input.term)">
-      <input type="text" ng-model=input.term value="" placeholder="what to search">
+      <input type="text" ng-model=input.term value="" placeholder="Set location">
     </form>
     <button type="button" name="button" ng-click="getLocation()">get current location</button>
   </div>
@@ -11,7 +11,7 @@
   <div class="four columns">
 
     <ul id="list_activities">
-      <h1>list</h1>
+      <h1>Activities:</h1>
       <li ng-repeat="activity in activities" >
 
       <p><h5 ng-click="activity_details(activity)">{{ activity.name }}</h5></p>
@@ -29,6 +29,7 @@
     <p>{{type}}</p>
     <p>{{phone}}</p>
     <p>{{ address }}</p>
+    <p><a ng-href="{{ googlemap }}" target="_black">direction</a></p>
     <p>{{distance}}</p>
     <p>{{rating}}</p>
     <img ng-src="{{ rating_img }}" alt="">
