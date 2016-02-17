@@ -4,3 +4,7 @@ body{
 #map{
   height: 400px;
 }
+#list_activities{
+  height: 400px;
+  overflow: scroll;
+}

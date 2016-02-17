@@ -71,7 +71,31 @@ function show_list(latlongi,location){
           google.maps.event.addListener(allmarkers, 'click', function() {
           infowindow.setContent(this.title);
           infowindow.open(myMap.map,this);
+          //=======get the activity with the same coordinates====
+          var clmarkerlat = this.position.lat();
+          var clmarkerlng = this.position.lng();
+          // console.log(clmarkerlat,'latitude on marker');
+          // console.log(clmarkerlng,'longitude on marker');
+          var markerclicktitle = this.title;
+          console.log(markerclicktitle,'marker');
+          for(var i=0;i<$scope.activities.length;i++){
+            var activione = $scope.activities[i];
+            // console.log(activione.name,'weeeee');
+            if(markerclicktitle===activione.name){
+              console.log("found",$scope.activities[i] );
+              $scope.activity_details($scope.activities[i]);
+            }
+          }
+
+
+
+
+
+          console.log(this.title,'on click marker');
           });
+          google.maps.event.addListener(allmarkers, "dblclick", function (e) {
+               console.log("Double Click");
+            });
     }
   })
 }
