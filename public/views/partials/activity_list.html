@@ -1,9 +1,8 @@
 <div class="row">
   <div id="search">
-    <form>
+    <form ng-submit="getInputTerm(input.term)">
       <input type="text" ng-model=input.term value="" placeholder="what to search">
     </form>
-    <a ng-click="getInputTerm(input.term)" role="button">Search</a>
     <button type="button" name="button" ng-click="getLocation()">get current location</button>
   </div>
   <p>{{current_place}}</p>
