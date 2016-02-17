@@ -35,7 +35,6 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     $scope.currlon = $scope.one_activity.location.coordinate.longitude;
     $scope.url = $scope.one_activity.mobile_url;
     $scope.rating_img = $scope.one_activity.rating_img_url_large;
-    // https://www.google.com/maps/dir//40.7633469,-73.9805162/@40.7592024,-73.9771259,15z
     $scope.googlemap = "https://www.google.com/maps/dir//"+$scope.currlat+","+$scope.currlon+"/@"+$scope.currlat+","+$scope.currlon+"15z";
 
     //====get the address from coordinates
@@ -54,6 +53,10 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     //===========set this marker to active==========
     $scope.pickActivity($scope.one_activity.marker);
   }
+
+
+
+
   //=========render list of activity depends on current location or search input==========
 function show_list(latlongi,location){
   $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
@@ -89,11 +92,18 @@ function show_list(latlongi,location){
             }
           }
           });
+
+          var list = document.querySelector('#list_activities');
+          list.addEventListener('click', function(){
+            infowindow.close();
+          })
           // google.maps.event.addListener(allmarkers, "dblclick", function (e) {
           //      console.log("Double Click");
           //   });
     }
+
   })
+
 }
 
 
