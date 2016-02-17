@@ -7,7 +7,7 @@ app.set('view engine', 'html')
 
 var indexRouter = require('./routes/index');
 app.use('/', indexRouter);
-var port = 8080;
+var port = process.env.PORT||8080;
 app.listen(port, function(){
   console.log("listening on port "+port);
 })
