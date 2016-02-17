@@ -27,13 +27,20 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     $scope.snippet_text = $scope.one_activity.snippet_text;
     $scope.img = $scope.one_activity.image_url;
     $scope.phone = $scope.one_activity.display_phone;
-    $scope.distance = $scope.one_activity.distance;
-    $scope.rating = $scope.one_activity.rating;
-    $scope.type = $scope.one_activity.categories[0][0];
+
+    $scope.distance = "Distance: "+(Math.round($scope.one_activity.distance*0.000621371192 * 100)/100).toFixed(2)+" mi";
+    $scope.rating = "Rating: "+$scope.one_activity.rating;
+    $scope.type = "Type: "+$scope.one_activity.categories[0][0];
     $scope.currlat = $scope.one_activity.location.coordinate.latitude;
     $scope.currlon = $scope.one_activity.location.coordinate.longitude;
     $scope.url = $scope.one_activity.mobile_url;
-//======get web site from yelp=========
+    $scope.rating_img = $scope.one_activity.rating_img_url_large;
+
+    //====get the address from coordinates
+    $http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").then(function(data){
+      $scope.address = "Address: "+data.data.results[0].formatted_address;
+    })
+    //======get web site from yelp=========
     $http.get('/getweb',{params:{"url":$scope.url}}).then(function(data){
       $scope.web = data.data;
     })
@@ -41,12 +48,10 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     for(var i =0;i<$scope.activities.length;i++){
       $scope.activities[i].marker.setIcon("http://mt.googleapis.com/vt/icon/name=icons/spotlight/spotlight-poi.png");
       $scope.activities[i].marker.setAnimation(null);
-
-          }
+    }
     //===========set this marker to active==========
     $scope.pickActivity($scope.one_activity.marker);
   }
-
   //=========render list of activity depends on current location or search input==========
 function show_list(latlongi,location){
   $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
@@ -74,28 +79,17 @@ function show_list(latlongi,location){
           //=======get the activity with the same coordinates====
           var clmarkerlat = this.position.lat();
           var clmarkerlng = this.position.lng();
-          // console.log(clmarkerlat,'latitude on marker');
-          // console.log(clmarkerlng,'longitude on marker');
           var markerclicktitle = this.title;
-          console.log(markerclicktitle,'marker');
           for(var i=0;i<$scope.activities.length;i++){
             var activione = $scope.activities[i];
-            // console.log(activione.name,'weeeee');
             if(markerclicktitle===activione.name){
-              console.log("found",$scope.activities[i] );
               $scope.activity_details($scope.activities[i]);
             }
           }
-
-
-
-
-
-          console.log(this.title,'on click marker');
           });
-          google.maps.event.addListener(allmarkers, "dblclick", function (e) {
-               console.log("Double Click");
-            });
+          // google.maps.event.addListener(allmarkers, "dblclick", function (e) {
+          //      console.log("Double Click");
+          //   });
     }
   })
 }
@@ -147,7 +141,6 @@ $scope.getInputTerm = function(text){
         });
 }
 
-
 // =====google map=======
   var myMap = {};
   myMap.init = function(){
@@ -164,7 +157,8 @@ $scope.getInputTerm = function(text){
     this.map = new google.maps.Map(this.mapEl, {
       center: this.currentLatLng,
       zoom: this.zoom,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scrollwheel: false,
     });
 
     this.marker = new google.maps.Marker({
@@ -176,6 +170,7 @@ $scope.getInputTerm = function(text){
       icon: "https://mt.google.com/vt/icon?psize=20&font=fonts/Roboto-Regular.ttf&color=ff330000&name=icons/spotlight/spotlight-waypoint-a.png&ax=44&ay=48&scale=1&text=%E2%80%A2"
     });
   }
+
 
   myMap.getMarker = function() {
     return this.marker;

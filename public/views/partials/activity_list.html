@@ -27,16 +27,16 @@
     <div id="map"></div>
     <img ng-src="{{img}}" alt="">
     <p>{{ activity }}</p>
-    <p>type:  {{type}}</p>
-    <p>phone: {{phone}}</p>
-    <p>distance: {{distance}}</p>
-    <p>rating: {{rating}}</p>
-    lat   {{currlat}}
-    lon   {{currlon}}
-
-    <p>URL to yelp</p><a ng-href="{{ url }}" target="_blank">click</a>
-  <p>web-site: <a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
+    <p>{{type}}</p>
+    <p>{{phone}}</p>
+    <p>{{ address }}</p>
+    <p>{{distance}}</p>
+    <p>{{rating}}</p>
+    <img ng-src="{{ rating_img }}" alt="">
+    <p>URL to yelp<a ng-href="{{ url }}" target="_blank">click</a></p>
+    <p>web-site: <a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
     <p>{{ snippet_text }}</p>
+
 
   </div>
   </div>
