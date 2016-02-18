@@ -1,10 +1,31 @@
 body{
-  background-color: lightblue;
+  background-color: rgb(253, 255, 233);
+}
+.nav{
+  margin: 0 auto;
+  text-align: center;
+  background-color: rgb(238, 221, 195);
 }
 #map{
   height: 400px;
 }
 #list_activities{
-  height: 400px;
+  font-size: 1em;
+  height: 600px;
   overflow: scroll;
 }
+#list_activities li:hover {
+   background-color:rgb(253, 223, 212);
+   cursor:pointer;
+ }
+ form{
+   margin-top: 10px;
+ }
+/*.alllist{
+  position: relative;
+  top:70px;
+}
+#search{
+  margin-top: 63px;
+  position: absolute;
+}*/

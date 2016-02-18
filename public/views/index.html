@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
     <script src="/js/markercluster.js" charset="utf-8"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTvHqW2RAF4awSfxoqaCtPpgl4Zx4qKt0" charset="utf-8"></script>
@@ -14,8 +15,13 @@
 
   </head>
   <body>
-    <a href="#/activities"><h1>Activities</h1></a>
-    <div class="content">
+
+      <div class="twelve columns nav">
+        <h1>Active Life</h1>
+      </div>
+
+    <!-- <a href="#/activities"><h1>Activities</h1></a> -->
+      <div class="container">
       <div id="activities" >
         <div class="activities-container" ng-view>
         </div>

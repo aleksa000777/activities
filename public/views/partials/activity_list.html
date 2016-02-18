@@ -5,36 +5,31 @@
     </form>
     <button type="button" name="button" ng-click="getLocation()">get current location</button>
   </div>
-  <p>{{current_place}}</p>
 </div>
 <div class="row">
-  <div class="four columns">
-
+  <div class="four columns alllist">
+    <p>{{current_place}}</p>
+    <h1>Activities:</h1>
     <ul id="list_activities" >
-      <h1>Activities:</h1>
       <li ng-repeat="activity in activities" >
-
-      <p><h5 ng-click="activity_details(activity)">{{ activity.name }}</h5></p>
+        <p ng-click="activity_details(activity)">{{ activity.name }}</p>
       </li>
     </ul>
   </div>
   <div class="eight columns">
-  <div class="row">
-
-  </div>
+  <!-- <div class="row"></div> -->
   <div class="row">
     <div id="map"></div>
     <img ng-src="{{img}}" alt="">
     <p>{{ activity }}</p>
     <p>{{type}}</p>
     <p><a href="tel:{{phone}}">{{ phone }}</a></p>
-    <p>{{ address }}</p>
-    <p><a ng-href="{{ googlemap }}" target="_black">direction</a></p>
+    <p> <a ng-href="{{ googlemap }}" target="_black">{{ address }}</a></p>
     <p>{{distance}}</p>
     <p>{{rating}}</p>
     <img ng-src="{{ rating_img }}" alt="">
-    <p>URL to yelp<a ng-href="{{ url }}" target="_blank">click</a></p>
-    <p>web-site: <a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
+    <p><a ng-href="{{ url }}" target="_blank">{{ urltoyelp }}</a></p>
+    <p>{{ website }}<a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
     <p>{{ snippet_text }}</p>
 
 

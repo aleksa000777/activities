@@ -16,7 +16,9 @@ app.config(['$routeProvider', function( $routeProvider ){
 }])
 
 app.controller('activitiesController', ['$scope','$http', function($scope,$http){
-
+  angular.element(document).ready(function () {
+        $scope.getLocation();
+    });
   // $scope.myLocationMarker = null;
 
 //======render detail of activity on click========
@@ -33,6 +35,7 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     $scope.type = "Type: "+$scope.one_activity.categories[0][0];
     $scope.currlat = $scope.one_activity.location.coordinate.latitude;
     $scope.currlon = $scope.one_activity.location.coordinate.longitude;
+    $scope.urltoyelp = "URL to Yelp";
     $scope.url = $scope.one_activity.mobile_url;
     $scope.rating_img = $scope.one_activity.rating_img_url_large;
     $scope.googlemap = "https://www.google.com/maps/dir//"+$scope.currlat+","+$scope.currlon+"/@"+$scope.currlat+","+$scope.currlon+"15z";
@@ -43,6 +46,7 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
     })
     //======get web site from yelp=========
     $http.get('/getweb',{params:{"url":$scope.url}}).then(function(data){
+      $scope.website = "Website: "
       $scope.web = data.data;
     })
     //=========set all markers to default==========
@@ -59,7 +63,7 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
 
   //=========render list of activity depends on current location or search input==========
 function show_list(latlongi,location){
-  $http.get('/search',{params:{"term": "so happy to get term","cll":latlongi, "location":location}}).then(function(data){
+  $http.get('/search',{params:{"cll":latlongi, "location":location}}).then(function(data){
     $scope.activities = data.data.businesses;
     console.log($scope.activities, 'to show all activities');
     //======go throw each activity and set marker on map======
@@ -111,6 +115,7 @@ $scope.currlat='';
 $scope.currlon='';
 //====show your current location on page====
 x = document.querySelector('#x');
+
 $scope.getLocation = function(){
   if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
