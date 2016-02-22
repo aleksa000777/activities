@@ -25,6 +25,7 @@ router.get('/search', function(req,res){
   if(req.query.location){
     yelp.search({ term:'',category_filter: 'active', location: req.query.location})
     .then(function(data){
+      // console.log(data, 'daaata');
       res.json(data)
     })
     .catch(function(err){
@@ -58,6 +59,15 @@ router.get('/getweb', function(req,res){
         console.log(web);
       })
     }
+  })
+
+})
+
+//get current weather
+router.get('/weather', function(req,res){
+  city = req.query.city;
+  request('http://api.openweathermap.org/data/2.5/weather?q='+city+process.env.WEATHERKEY, function(err,response){
+    res.json(response.body)
   })
 
 })

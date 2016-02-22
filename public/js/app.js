@@ -19,7 +19,17 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
   angular.element(document).ready(function () {
         $scope.getLocation();
     });
+
   // $scope.myLocationMarker = null;
+//====get the weather by cuurent location====
+$scope.weather = function(city){
+  $http.get('/weather',{params:{"city":city}}).then(function(data){
+    newdata = angular.fromJson(data.data);
+    $scope.temp = parseInt(newdata.main.temp * 9/5 - 459.67)
+  })
+
+                  console.log(city);
+}
 
 //======render detail of activity on click========
 
@@ -129,6 +139,10 @@ function showPosition(position){
   $http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").then(function(data){
     $scope.current_location = angular.fromJson(data);
     $scope.current_place = $scope.current_location.data.results[2].formatted_address;
+    //need the get only city
+    currweathercity=$scope.current_location.data.results[3].address_components[0].long_name
+    $scope.weather(currweathercity)
+    console.log($scope.current_location.data.results[3].address_components[0].long_name, 'current place');
   })
   currlocation=$scope.currlat+","+$scope.currlon
   show_list(currlocation);
@@ -137,12 +151,17 @@ function showPosition(position){
 
   var myLocationMarker = myMap.getMarker();
   myLocationMarker.setPosition(currentLatLng);
+
+
+
+
 }
 
 //=====get the input and render list of activities====
 $scope.getInputTerm = function(text){
   console.log(text, "search text");
   show_list("",text);
+  $scope.weather(text)
   var geocoder =  new google.maps.Geocoder();
     geocoder.geocode( { 'address': text+", us"}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
