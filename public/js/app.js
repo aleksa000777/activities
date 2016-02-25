@@ -28,7 +28,6 @@ $scope.weather = function(city){
     $scope.temp = parseInt(newdata.main.temp * 9/5 - 459.67)
   })
 
-                  console.log(city);
 }
 
 //======render detail of activity on click========
@@ -70,14 +69,15 @@ $scope.weather = function(city){
 
 
 
-
+var latlongitofunc;
+var locationtofunc;
   //=========render list of activity depends on current location or search input==========
-function show_list(latlongi,location){
-  $http.get('/search',{params:{"cll":latlongi, "location":location}}).then(function(data){
+function show_list(latlongi,location,offset){
+  $http.get('/search',{params:{"cll":latlongi, "location":location, "offset":offset}}).then(function(data){
     $scope.activities = data.data.businesses;
     console.log($scope.activities, 'to show all activities');
     //======go throw each activity and set marker on map======
-    for(var i =0;i<$scope.activities.length;i++){
+    for(var i=0;i<$scope.activities.length;i++){
       var location = $scope.activities[i].location.coordinate;
       $scope.activities[i].marker = new google.maps.Marker({
             position: new google.maps.LatLng(location.latitude||location.lat, location.longitude||location.lng),
@@ -111,15 +111,19 @@ function show_list(latlongi,location){
           list.addEventListener('click', function(){
             infowindow.close();
           })
-          // google.maps.event.addListener(allmarkers, "dblclick", function (e) {
-          //      console.log("Double Click");
-          //   });
     }
 
   })
 
 }
 
+$scope.next = function(offset){
+  console.log("offset", offset);
+  console.log(latlongitofunc,'latlongitofunc');
+  console.log(locationtofunc,'locationtofunc');
+  show_list(latlongitofunc,locationtofunc,offset)
+
+}
 
 $scope.currlat='';
 $scope.currlon='';
@@ -142,9 +146,10 @@ function showPosition(position){
     //need the get only city
     currweathercity=$scope.current_location.data.results[3].address_components[0].long_name
     $scope.weather(currweathercity)
-    console.log($scope.current_location.data.results[3].address_components[0].long_name, 'current place');
   })
-  currlocation=$scope.currlat+","+$scope.currlon
+  currlocation=$scope.currlat+","+$scope.currlon;
+  latlongitofunc = currlocation;
+  locationtofunc = '';
   show_list(currlocation);
   var currentLatLng = new google.maps.LatLng( $scope.currlat||40.6974881, $scope.currlon||-73.979681 );
   myMap.reCenterMap(currentLatLng)
@@ -159,7 +164,12 @@ function showPosition(position){
 
 //=====get the input and render list of activities====
 $scope.getInputTerm = function(text){
-  console.log(text, "search text");
+  // console.log(text, "search text");
+
+  description_activity = document.querySelector('#description_activity');
+  description_activity = false;
+  latlongitofunc = '';
+  locationtofunc = text;
   show_list("",text);
   $scope.weather(text)
   var geocoder =  new google.maps.Geocoder();

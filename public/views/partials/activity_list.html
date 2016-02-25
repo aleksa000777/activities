@@ -16,22 +16,27 @@
         <p ng-click="activity_details(activity)">{{ activity.name }}</p>
       </li>
     </ul>
+    <!-- <button ng-click="next()">more</button> -->
+
+    <button ng-click="next(count = count + 20)" ng-init="count=0">more</button>
   </div>
   <div class="eight columns">
   <!-- <div class="row"></div> -->
   <div class="row">
     <div id="map"></div>
-    <img ng-src="{{img}}" alt="">
-    <p>{{ activity }}</p>
-    <p>{{type}}</p>
-    <p><a href="tel:{{phone}}">{{ phone }}</a></p>
-    <p> <a ng-href="{{ googlemap }}" target="_black">{{ address }}</a></p>
-    <p>{{distance}}</p>
-    <p>{{rating}}</p>
-    <img ng-src="{{ rating_img }}" alt="">
-    <p><a ng-href="{{ url }}" target="_blank">{{ urltoyelp }}</a></p>
-    <p>{{ website }}<a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
-    <p>{{ snippet_text }}</p>
+    <div id="description_activity">
+      <img ng-src="{{img}}" alt="">
+      <p>{{ activity }}</p>
+      <p>{{type}}</p>
+      <p><a href="tel:{{phone}}">{{ phone }}</a></p>
+      <p> <a ng-href="{{ googlemap }}" target="_black">{{ address }}</a></p>
+      <p>{{distance}}</p>
+      <p>{{rating}}</p>
+      <img ng-src="{{ rating_img }}" alt="">
+      <p><a ng-href="{{ url }}" target="_blank">{{ urltoyelp }}</a></p>
+      <p>{{ website }}<a ng-href="http://{{web}}" target="_blank">{{web}}</a></p>
+      <p>{{ snippet_text }}</p>
+    </div>
 
 
   </div>

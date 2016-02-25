@@ -21,11 +21,11 @@ var yelp = new Yelp({
 
 
 router.get('/search', function(req,res){
-  console.log(req.query,'this is request');
+  console.log(req.query,'here this is request');
   if(req.query.location){
-    yelp.search({ term:'',category_filter: 'active', location: req.query.location})
+    yelp.search({ term:'',category_filter: 'active', location: req.query.location, sort:0, offset: req.query.offset||0})
     .then(function(data){
-      // console.log(data, 'daaata');
+      console.log(data.businesses.length, 'daaata');
       res.json(data)
     })
     .catch(function(err){
@@ -33,7 +33,7 @@ router.get('/search', function(req,res){
     })
   }
 else{
-  yelp.search({ term:'',category_filter: 'active', ll: req.query.cll})
+  yelp.search({ term:'',category_filter: 'active', ll: req.query.cll, sort:0, offset: req.query.offset||0})
   .then(function(data){
     res.json(data)
   })
