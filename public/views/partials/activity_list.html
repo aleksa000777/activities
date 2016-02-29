@@ -9,7 +9,7 @@
 <div class="row">
   <div class="four columns alllist">
     <p>{{current_place}}</p>
-    <p>current temperature F:{{temp}}</p>
+    <p>{{temp}}</p>
     <h1>Activities:</h1>
     <ul id="list_activities" >
       <li ng-repeat="activity in activities" >
@@ -18,7 +18,7 @@
     </ul>
     <!-- <button ng-click="next()">more</button> -->
 
-    <button ng-click="next(count = count + 20)" ng-init="count=0">more</button>
+    <!-- <button ng-click="next(count = count + 20)" ng-init="count=0">more</button> -->
   </div>
   <div class="eight columns">
   <!-- <div class="row"></div> -->

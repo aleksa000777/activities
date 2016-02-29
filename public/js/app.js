@@ -25,7 +25,7 @@ app.controller('activitiesController', ['$scope','$http', function($scope,$http)
 $scope.weather = function(city){
   $http.get('/weather',{params:{"city":city}}).then(function(data){
     newdata = angular.fromJson(data.data);
-    $scope.temp = parseInt(newdata.main.temp * 9/5 - 459.67)
+    $scope.temp = "current temperature F: "+parseInt(newdata.main.temp * 9/5 - 459.67)
   })
 
 }
@@ -121,7 +121,20 @@ $scope.next = function(offset){
   console.log("offset", offset);
   console.log(latlongitofunc,'latlongitofunc');
   console.log(locationtofunc,'locationtofunc');
-  show_list(latlongitofunc,locationtofunc,offset)
+  if(latlongitofunc){
+    var currentLatLng = new google.maps.LatLng( $scope.currlat||40.6974881, $scope.currlon||-73.979681 );
+    myMap.reCenterMap(currentLatLng)
+
+    var myLocationMarker = myMap.getMarker();
+    myLocationMarker.setPosition(currentLatLng);
+  }
+  else if(locationtofunc){
+    myMap.init();
+    myMap.updateMarker();
+    myMap.reCenterMap();
+  }
+  // have to delete all markers on the map exclude the current location marker!!!
+  show_list(latlongitofunc,locationtofunc,offset);
 
 }
 
