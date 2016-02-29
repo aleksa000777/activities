@@ -146,6 +146,7 @@ x = document.querySelector('#x');
 
 $scope.getLocation = function(){
   if (navigator.geolocation) {
+    if($scope.input) $scope.input.term="";
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
