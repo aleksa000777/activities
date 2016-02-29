@@ -186,6 +186,7 @@ $scope.getInputTerm = function(text){
   locationtofunc = text;
   show_list("",text);
   $scope.weather(text)
+  $scope.current_place="";
   var geocoder =  new google.maps.Geocoder();
     geocoder.geocode( { 'address': text+", us"}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
