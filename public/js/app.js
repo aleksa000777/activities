@@ -50,7 +50,7 @@ $scope.weather = function(city){
     $scope.googlemap = "https://www.google.com/maps/dir//"+$scope.currlat+","+$scope.currlon+"/@"+$scope.currlat+","+$scope.currlon+"15z";
 
     //====get the address from coordinates
-    $http.jsonp("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").then(function(data){
+    $http.jsonp("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").success(function(data){
       console.log("data",data);
       $scope.address = "Address: "+data.data.results[0].formatted_address;
     })
@@ -154,7 +154,7 @@ $scope.getLocation = function(){
 function showPosition(position){
   $scope.currlat=position.coords.latitude;
   $scope.currlon=position.coords.longitude;
-  $http.jsonp("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").then(function(data){
+  $http.jsonp("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").success(function(data){
     $scope.current_location = angular.fromJson(data);
     $scope.current_place = $scope.current_location.data.results[2].formatted_address;
     //need the get only city
