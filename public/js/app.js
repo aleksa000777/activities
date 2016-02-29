@@ -51,6 +51,7 @@ $scope.weather = function(city){
 
     //====get the address from coordinates
     $http.get("http://maps.googleapis.com/maps/api/geocode/json?latlng="+$scope.currlat+","+$scope.currlon+"&sensor=true").then(function(data){
+      console.log("data",data);
       $scope.address = "Address: "+data.data.results[0].formatted_address;
     })
     //======get web site from yelp=========
